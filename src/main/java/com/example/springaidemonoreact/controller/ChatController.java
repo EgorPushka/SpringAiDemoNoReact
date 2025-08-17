@@ -30,8 +30,8 @@ public class ChatController {
 
     @PostMapping("/chat/new")
     public String createNewChat(@RequestParam String title) {
-        var newChatId = chatService.createNewChat(title);
-        return "redirect:/chat/" + newChatId;
+        var newChat = chatService.createNewChat(title);
+        return "redirect:/chat/" + newChat.getId();
     }
 
     @PostMapping("/chat/{chatId}/delete")
