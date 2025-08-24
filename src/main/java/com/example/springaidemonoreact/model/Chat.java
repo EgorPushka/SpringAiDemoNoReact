@@ -30,4 +30,7 @@ public class Chat {
     @OneToMany(mappedBy = "chat", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ChatEntry> history = new ArrayList<>();
 
+    public void addEntry(ChatEntry entry) {
+        this.history.add(entry);
+    }
 }
