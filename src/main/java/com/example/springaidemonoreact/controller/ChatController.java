@@ -42,11 +42,11 @@ public class ChatController {
         return "redirect:/";
     }
 
-    @PostMapping("/chat/{chatId}/entry")
-    public String sendToModel(@PathVariable Long chatId, @RequestParam("userPrompt") String userPrompt) {
-        log.info("send to llm");
-        chatService.processInteraction(chatId, userPrompt);
-        return "redirect:/chat/" + chatId;
-    }
+//    @PostMapping("/chat/{chatId}/entry")
+//    public String sendToModel(@PathVariable Long chatId, @RequestParam("userPrompt") String userPrompt) {
+//        log.info("send to llm");
+//        chatService.processInteraction(chatId, userPrompt);
+//        return "redirect:/chat/" + chatId;
+//    }
 
 }
