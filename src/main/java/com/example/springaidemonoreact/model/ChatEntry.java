@@ -28,4 +28,8 @@ public class ChatEntry {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
+    @ManyToOne
+    @JoinColumn(name = "chat_id", nullable = false)
+    private Chat chat;
+
 }
