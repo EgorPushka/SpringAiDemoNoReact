@@ -11,11 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class ChatWriterService {
 
-    private final ChatRepository chatRepository;
+  private final ChatRepository chatRepository;
 
-    @Transactional
-    public void addChatEntry(Long chatId, String promt, Role role) {
-        var chat = chatRepository.findById(chatId).orElseThrow();
-        chat.addEntry(ChatEntry.builder().content(promt).chat(chat).role(role).build());
-    }
+  @Transactional
+  public void addChatEntry(Long chatId, String promt, Role role) {
+    var chat = chatRepository.findById(chatId).orElseThrow();
+    chat.addEntry(ChatEntry.builder().content(promt).chat(chat).role(role).build());
+  }
 }
