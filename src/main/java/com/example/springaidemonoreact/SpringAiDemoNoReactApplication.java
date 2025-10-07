@@ -1,6 +1,12 @@
 package com.example.springaidemonoreact;
 
+import com.example.springaidemonoreact.component.PostgresChatMemory;
+import com.example.springaidemonoreact.repository.ChatRepository;
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
+import org.springframework.ai.chat.client.advisor.api.Advisor;
+import org.springframework.ai.chat.memory.ChatMemory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -8,26 +14,27 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class SpringAiDemoNoReactApplication {
 
-    @Bean
-    public ChatClient chatClient(ChatClient.Builder builder) {
-        return builder.build();
-    }
+  @Autowired
+  private ChatRepository chatRepository;
 
-    public static void main(String[] args) {
-        var context = SpringApplication.run(SpringAiDemoNoReactApplication.class, args);
-//        var chatClient = context.getBean(ChatClient.class);
+  @Bean
+  public ChatClient chatClient(ChatClient.Builder builder) {
+    return builder.defaultAdvisors(getAdvisor()).build();
+  }
 
-        // печатаем ответ полсе формирования полного ответа от модели
-//        System.out.println(chatClient.prompt().user("Напиши текст песни Queen Багемская рапсодия").call().content());
+  private Advisor getAdvisor() {
+    return MessageChatMemoryAdvisor.builder(getChatMemory()).build();
+  }
 
-        // выводим в режиме стриминга по мере поступления токенов
-//        chatClient.prompt()
-//                .user("Напиши текст песни Queen Багемская рапсодия")
-//                .stream()
-//                .content()
-//                .doOnNext(System.out::print)
-//                .blockLast();
+  private ChatMemory getChatMemory() {
+    return PostgresChatMemory.builder()
+        .maxMessages(2)
+        .chatMemoryRepository(chatRepository)
+        .build();
+  }
 
-    }
+  public static void main(String[] args) {
+    var context = SpringApplication.run(SpringAiDemoNoReactApplication.class, args);
+  }
 
 }
